@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sample
+  namespace: myhrs
+spec:
+  chart:
+    spec:
+      chart: quarkus
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: redhat-helm-charts
+        namespace: flux-system
+      version: 0.0.3
+  install:
+    createNamespace: true
+  interval: 1m0s
+  targetNamespace: quarkus
+  values:
+    image:
+      name: quay.io/ablock/gitops-helm-quarkus
+    build:
+      enabled: false
+    deploy:
+      route:
+        enabled: false
